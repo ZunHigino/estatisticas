@@ -6,38 +6,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
 </head>
-<body class="body">  
+<body class="body">         
 
-    <div class="café">
-        <img src="assets/cafe.jpg" alt="café">
+    <div class="inputs">
+        <h2>Digite os números, separe-os por vírgula</h2>
+        <input type="text" id="numeros" placeholder="Ex: 5, 10, 11, 7">
+        <br><br>
+        <p id="resultados">Resultado: </p>
+        <button type="button" onclick="calcular()">Calcular Estatísticas</button>        
     </div>
 
+    <script>
+        function calcularEstatisticas(lista) {
+            // Converte a string em uma lista de números
+            const listaNumeros = lista.split(',').map(num => Number(num.trim())).filter(num => !isNaN(num));
+        
+            if (listaNumeros.length === 0) {
+                return { media: null, mediana: null, moda: null };
+            }
+        
+            // Média
+            const media = listaNumeros.reduce((acc, val) => acc + val, 0) / listaNumeros.length;
+        
+            // Mediana
+            listaNumeros.sort((a, b) => a - b);
+            const meio = Math.floor(listaNumeros.length / 2);
+            const mediana = listaNumeros.length % 2 === 0
+                ? (listaNumeros[meio - 1] + listaNumeros[meio]) / 2
+                : listaNumeros[meio];
+        
+            // Moda
+            const freq = {};
+            listaNumeros.forEach(num => freq[num] = (freq[num] || 0) + 1);
+            const moda = Object.keys(freq).reduce((a, b) => freq[a] > freq[b] ? a : b);
+        
+            return { media, mediana, moda };
+        }
+        
+        function calcular() {
+            const numeros = document.getElementById('numeros').value;
+        
+            const { media, mediana, moda } = calcularEstatisticas(numeros);
+        
+            document.getElementById('resultados').innerHTML = `Média: ${media}, Mediana: ${mediana}, Moda: ${moda}`;
+        }        
+    </script>
+
+
+    <!--
      <form class="inputs">
-        <h2>Gostam de Café?</h2><br>
-
-        <label for="Cafe">Quantas pessoas gostam de café?</label><br>
-        <input type="number" name="Cafe" id="cafe"><br><br>
-
-        <label for="Nao">Quantas pessoas NÃO gostam de café?</label><br>
-        <input type="number" name="Nao" id="nao"><br><br><br><br>
-
-
-        <h2>Tipos de Café</h2><br>
-
-        <label for="Tipo1">Quantas pessoas gostam de café preto?</label><br>
-        <input type="number" name="Tipo1" id="tipo1"><br><br>
-
-        <label for="Tipo2">Quantas pessoas gostam de café com leite?</label><br>
-        <input type="number" name="Tipo2" id="tipo2"><br><br>
-
-        <label for="Tipo3">Quantas pessoas gostam de cappucino?</label><br>
-        <input type="number" name="Tipo3" id="tipo3"><br><br>
-
-        <label for="Tipo4">Quantas pessoas gostam de café expresso?</label><br>
-        <input type="number" name="Tipo4" id="tipo4"><br><br><br><br>
 
 
         <h2>Temperatura do Café</h2><br>
@@ -98,11 +116,8 @@
      </form>
 
     <form action="dados.html">
-        <input type="submit" value="Ir para Dados" class="botao" pys-onClick="test">
+        <input type="submit" value="Ir para Dados" class="botao" pys-onClick="test  ">
     </form>
-
-    <py-script src="scripts/main.py">
-
-    </py-script>
+    -->
 </body>
 </html>

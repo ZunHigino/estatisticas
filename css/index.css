@@ -7,15 +7,6 @@
     text-align: center;
 }
 
-.café {
-    padding: 3%;
-    width: 300px;
-    height: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .botao {
     padding: 1px 10px;
     border: 1px outset buttonborder;
